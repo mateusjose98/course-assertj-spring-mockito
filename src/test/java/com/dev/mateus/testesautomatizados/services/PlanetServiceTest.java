@@ -13,7 +13,10 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.util.*;
 
@@ -24,6 +27,7 @@ public class PlanetServiceTest {
     private PlanetServiceImpl planetService;
     @Mock
     private PlanetRepository planetRepository;
+
 
     @Test
     public void createPlanet_WithValidData_ReturnsOnePlanet() {
@@ -36,9 +40,9 @@ public class PlanetServiceTest {
 
     @Test
     public void createPlanet_WithInvalidData_ThrowsException() {
-        when(planetRepository.save(INVALID_PLANET)).thenThrow(RuntimeException.class);
+        when(planetRepository.save(EMPTY_PLANET)).thenThrow(RuntimeException.class);
         assertThatThrownBy(
-                () -> planetService.createPlanet(INVALID_PLANET)
+                () -> planetService.createPlanet(EMPTY_PLANET)
         ).isInstanceOf(RuntimeException.class);
     }
 
